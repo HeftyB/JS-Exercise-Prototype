@@ -39,9 +39,28 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(names, ages){
+  this.name = names;
+  this.age = ages;
+  this.stomach = [];
 }
+
+
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+
+Person.prototype.toString = function () {
+  return `${this.name}${this.age}`;
+}
+
+
 
 /*
   TASK 2
@@ -57,8 +76,27 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(models, milesPerGallons) {
+  this.model = models;
+  this.milesPerGallon = milesPerGallons;
+  this.tank = 0;
+  this.odometer = 0;
+}
 
+Car.prototype.fill = function (gallons) {   
+  this.tank = this.tank + gallons;
+}
+
+Car.prototype.drive = function (distance) {
+
+  if (this.tank > 0) { 
+  this.odometer = this.odometer + distance;
+  this.tank = Math.round(this.tank - (distance / this.milesPerGallon));
+  }
+  if (this.tank <= 0) {
+    this.odometer = this.odometer - 1;
+    return `I ran out of fuel at ${this.odometer} miles!`
+  }
 }
 
 /*
@@ -68,18 +106,32 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(names, ages, favoriteToy) {
 
+  this.name = names;
+  this.age = ages;
+  this.stomach = [];
+  this.favoriteToy = favoriteToy;
+
+}
+
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function () {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. window binding, when this is used in the global scope or is not referring to anything it defaults to the window object.
+
+  2.implicit binding is where this is implied to something. When the function is invoked this always refers to what is on the left side of the period. 
+
+  3.new binding is where this refers to a newly constructed function using one of the constructer keywords. 
+
+  4. explicit binding is where we use javaScripts .call or .apply method and explicitly bind this to te new function. 
 */
 
 
